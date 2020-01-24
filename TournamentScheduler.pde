@@ -3,6 +3,10 @@ int screenState=0;
 boolean mouseClicked;
 int bracketType=0;
 
+TickBox[] tickBoxes={
+  new TickBox("Teams", 600, 600, 100, 100)
+};
+
 TextBox[] textBoxes={
   
 };
@@ -12,6 +16,7 @@ RadioButton[] radioButtons={
 };
 
 void setup() {
+  textSize(20);
   lines=loadStrings("data/teams.txt");
   size(800, 800);
 }
@@ -30,6 +35,7 @@ void draw() {
 
 void initial() {
   for(int i=0; i<radioButtons.length; i++) radioButtons[i].display();
+  for(int i=0; i<radioButtons.length; i++) tickBoxes[i].display();
 }
 
 boolean button(String str, int x, int y, int w, int h, color clr) {

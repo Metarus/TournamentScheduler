@@ -14,6 +14,5 @@ class RadioButton {
     for(int i=0; i<options.length; i++) {
       if(button(options[i], (int)(x+i*buttonWidth), y, (int)buttonWidth, h, ((selection==i)?224:256))) selection=i;
     }
-    println(selection);
   }
 }
