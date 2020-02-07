@@ -12,4 +12,5 @@ class TickBox {
   void display() {
     if(button(str, x, y, w, h, ((selection)?224:256))) selection=!selection;
   }
+  boolean getContent() { return selection; }
 }

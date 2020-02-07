@@ -4,11 +4,13 @@ boolean mouseClicked;
 int bracketType=0;
 
 TickBox[] tickBoxes={
-  new TickBox("Teams", 600, 600, 100, 100)
+  new TickBox("Teams", 400, 200, 100, 50),
+  new TickBox("Times", 250, 200, 100, 50),
+  new TickBox("Seeding", 100, 200, 100, 50)
 };
 
 TextBox[] textBoxes={
-  
+  new TextBox("# of team members", 100, 300, 300, 50)
 };
 
 RadioButton[] radioButtons={
@@ -35,7 +37,8 @@ void draw() {
 
 void initial() {
   for(int i=0; i<radioButtons.length; i++) radioButtons[i].display();
-  for(int i=0; i<radioButtons.length; i++) tickBoxes[i].display();
+  for(int i=0; i<tickBoxes.length; i++) tickBoxes[i].display();
+  if(tickBoxes[0].getContent()) textBoxes[0].display();
 }
 
 boolean button(String str, int x, int y, int w, int h, color clr) {
