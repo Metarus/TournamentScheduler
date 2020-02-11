@@ -15,4 +15,5 @@ class RadioButton {
       if(button(options[i], (int)(x+i*buttonWidth), y, (int)buttonWidth, h, ((selection==i)?224:256))) selection=i;
     }
   }
+  int getContent() { return selection; }
 }

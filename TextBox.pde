@@ -10,7 +10,11 @@ class TextBox {
     h=_h;
   }
   void display() {
-    updateText();
+    if(mouseClicked) {
+      if(button("", x, y, w, h, 0)) {
+        selected=true;
+      } else selected=false;
+    }
     textAlign(LEFT);
     fill(255);
     rect(x, y, w, h);
@@ -19,12 +23,7 @@ class TextBox {
     text(content, x, y, w, h);
   }
   void updateText() {
-    if(mouseClicked) {
-      if(button("", x, y, w, h, 0)) {
-        selected=true;
-      } else selected=false;
-    }
-    if(selected&&keyPressed) {
+    if(selected) {
       if (key==BACKSPACE) {
         if(0<content.length()) {
           content=content.substring(0, content.length()-1);

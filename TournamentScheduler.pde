@@ -1,7 +1,10 @@
+String[][] teams;
 String lines[];
 int screenState=0;
 boolean mouseClicked;
 int bracketType=0;
+
+ArrayList<Match> matches=new ArrayList<Match>();
 
 TickBox[] tickBoxes={
   new TickBox("Teams", 400, 200, 100, 50),
@@ -10,7 +13,6 @@ TickBox[] tickBoxes={
 };
 
 TextBox[] textBoxes={
-  new TextBox("# of team members", 100, 300, 300, 50)
 };
 
 RadioButton[] radioButtons={
@@ -38,7 +40,35 @@ void draw() {
 void initial() {
   for(int i=0; i<radioButtons.length; i++) radioButtons[i].display();
   for(int i=0; i<tickBoxes.length; i++) tickBoxes[i].display();
-  if(tickBoxes[0].getContent()) textBoxes[0].display();
+  if(button("Next Page", 500, 500, 100, 100, color(0, 255, 0))) {
+    screenState++;
+    createTournament();
+  }
+}
+
+void createTournament() {
+  if(tickBoxes[0].getContent()) {
+    teams=new String[lines.length][];
+    for(int i=0; i<lines.length; i++) {
+      teams[i][0]=lines[i];
+    }
+  } else {
+    for(int i=0; i<lines.length; i++) {
+      
+    }
+  }
+  int type=radioButtons[0].getContent();
+  switch(type) {
+    case 0:
+      for(int i=0; i<log(teams.length)/log(2); i++) {
+        
+      }
+      break;
+    case 1:
+      break;
+    case 2:
+      break;
+  }
 }
 
 boolean button(String str, int x, int y, int w, int h, color clr) {
@@ -53,4 +83,8 @@ boolean button(String str, int x, int y, int w, int h, color clr) {
 
 void mouseClicked() {
   mouseClicked=true;
+}
+
+void keyPressed() {
+  for(int i=0; i<textBoxes.length; i++) textBoxes[i].updateText();
 }
