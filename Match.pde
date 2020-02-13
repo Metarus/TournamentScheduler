@@ -1,6 +1,7 @@
 class Match {
+  int winner=-1;
   int[] playerInputs=new int[2];
-  int[] players=new int[2];
+  int[] players={-1, -1};
   Match(boolean inputs, int p1, int p2) {
     if(inputs) {
       playerInputs[0]=p1;

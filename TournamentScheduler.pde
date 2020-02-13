@@ -47,8 +47,8 @@ void initial() {
 }
 
 void createTournament() {
-  if(tickBoxes[0].getContent()) {
-    teams=new String[lines.length][];
+  if(!tickBoxes[0].getContent()) {
+    teams=new String[lines.length][1];
     for(int i=0; i<lines.length; i++) {
       teams[i][0]=lines[i];
     }
@@ -56,6 +56,9 @@ void createTournament() {
     for(int i=0; i<lines.length; i++) {
       
     }
+  }
+  for(int i=0; i<teams.length; i++) {
+    println(teams[i][0]);
   }
   int type=radioButtons[0].getContent();
   switch(type) {
@@ -68,6 +71,16 @@ void createTournament() {
       break;
     case 2:
       break;
+  }
+}
+
+void updateMatches() {
+  for(int i=0; i<matches.size(); i++) {
+    for(int j=0; j<matches.get(i).players.length; j++) {
+      //Somewhat strange line, effectively checks if the player is set, if not, then update it by checking player inputs
+      //This requires multiple layers of getting details from matches, but it works
+      if(matches.get(i).players[j]==-1) matches.get(i).players[j]=matches.get(matches.get(i).playerInputs[j]).winner;
+    }
   }
 }
 
