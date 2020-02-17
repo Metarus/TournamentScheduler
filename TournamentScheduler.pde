@@ -48,7 +48,7 @@ void initial() {
 
 void createTournament() {
   if(!tickBoxes[0].getContent()) {
-    teams=new String[lines.length][1];
+    teams=new String[lines.length+1][1];
     for(int i=0; i<lines.length; i++) {
       teams[i][0]=lines[i];
     }
@@ -63,15 +63,32 @@ void createTournament() {
   int type=radioButtons[0].getContent();
   switch(type) {
     case 0:
-      for(int i=0; i<log(teams.length)/log(2); i++) {
-        
-      }
+      createSingleElim(0, 0, teams.length);
       break;
     case 1:
       break;
     case 2:
       break;
   }
+  for(int i=0; i<matches.size(); i++) {
+    println(i+" "+matches.get(i).players[0]+" "+matches.get(i).players[1]+" "+matches.get(i).playerInputs[0]+" "+matches.get(i).playerInputs[1]);
+  }
+}
+
+void createSingleElim(int round, int firstMatch, int lastMatch) {
+    for(int i=firstMatch; i<lastMatch; i+=2) {
+    if(round==0) {
+      matches.add(new Match(false, i, i+1));
+    } else {
+      if(i>lastMatch) {
+        matches.add(new Match(true, i, i));
+      } else matches.add(new Match(true, i, i+1));
+    }
+  }
+  println(firstMatch+" "+lastMatch+" "+round);
+  if(round==0) {
+    createSingleElim(round+1, 0, matches.size()-1);
+  } else if(lastMatch-firstMatch>1) createSingleElim(round+1, lastMatch, matches.size());
 }
 
 void updateMatches() {
