@@ -79,8 +79,8 @@ void createSingleElim(int round, int firstMatch, int lastMatch) {
   if(firstMatch==lastMatch) return;
   for(int i=firstMatch; i<lastMatch+1; i+=2) {
     if(i>=lastMatch) {
-      matches.add(new Match(round!=0, i, i));
-    } else matches.add(new Match(round!=0, i, i+1));
+      matches.add(new Match(round!=0, i, i, round));
+    } else matches.add(new Match(round!=0, i, i+1, round));
   }
   println(firstMatch+" "+lastMatch+" "+round);
   if(round==0) {
