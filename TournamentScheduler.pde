@@ -32,6 +32,7 @@ void draw() {
       initial();
       break;
     case 1:
+      tournamentDisplay();
       break;
   }
   mouseClicked=false;
@@ -43,6 +44,20 @@ void initial() {
   if(button("Next Page", 500, 500, 100, 100, color(0, 255, 0))) {
     screenState++;
     createTournament();
+  }
+}
+
+void tournamentDisplay() {
+  for(int i=0; i<matches.size(); i++) matches.get(i).update();
+  int round=0;
+  int yVal=50;
+  for(int i=0; i<matches.size(); i++) {
+    if(round!=matches.get(i).round) {
+      round=matches.get(i).round;
+      yVal=50;
+    }
+    image(matches.get(i).getContent(), matches.get(i).round*320, yVal);
+    yVal+=120;
   }
 }
 
@@ -82,7 +97,6 @@ void createSingleElim(int round, int firstMatch, int lastMatch) {
       matches.add(new Match(round!=0, i, i, round));
     } else matches.add(new Match(round!=0, i, i+1, round));
   }
-  println(firstMatch+" "+lastMatch+" "+round);
   if(round==0) {
     createSingleElim(round+1, 0, matches.size()-1);
   } else createSingleElim(round+1, lastMatch+1, matches.size()-1);
