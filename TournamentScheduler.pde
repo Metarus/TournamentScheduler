@@ -22,7 +22,7 @@ RadioButton[] radioButtons={
 void setup() {
   textSize(20);
   lines=loadStrings("data/teams.txt");
-  size(800, 800);
+  size(1600, 1600);
 }
 
 void draw() {
@@ -42,23 +42,15 @@ void initial() {
   for(int i=0; i<radioButtons.length; i++) radioButtons[i].display();
   for(int i=0; i<tickBoxes.length; i++) tickBoxes[i].display();
   if(button("Next Page", 500, 500, 100, 100, color(0, 255, 0))) {
-    screenState++;
     createTournament();
+    screenState++;
   }
 }
 
 void tournamentDisplay() {
   for(int i=0; i<matches.size(); i++) matches.get(i).update();
-  int round=0;
-  int yVal=50;
-  for(int i=0; i<matches.size(); i++) {
-    if(round!=matches.get(i).round) {
-      round=matches.get(i).round;
-      yVal=50;
-    }
-    image(matches.get(i).getContent(), matches.get(i).round*320, yVal);
-    yVal+=120;
-  }
+  for(int i=0; i<matches.size(); i++) matches.get(i).display();
+  
 }
 
 void createTournament() {
@@ -79,14 +71,12 @@ void createTournament() {
   switch(type) {
     case 0:
       createSingleElim(0, 0, teams.length-1);
+      setTournamentDisplay();
       break;
     case 1:
       break;
     case 2:
       break;
-  }
-  for(int i=0; i<matches.size(); i++) {
-    println(i+" "+matches.get(i).players[0]+" "+matches.get(i).players[1]+" "+matches.get(i).playerInputs[0]+" "+matches.get(i).playerInputs[1]);
   }
 }
 
@@ -100,6 +90,21 @@ void createSingleElim(int round, int firstMatch, int lastMatch) {
   if(round==0) {
     createSingleElim(round+1, 0, matches.size()-1);
   } else createSingleElim(round+1, lastMatch+1, matches.size()-1);
+}
+
+void setTournamentDisplay() {
+  int round=0;
+  int resetYVal=60;
+  int yVal=resetYVal-10;
+  for(int i=0; i<matches.size(); i++) {
+    if(round!=matches.get(i).round) {
+      round=matches.get(i).round;
+      resetYVal*=2;
+      yVal=resetYVal-10;
+    }
+    matches.get(i).setPos(50+matches.get(i).round*320, yVal);
+    yVal+=120*(Math.pow(2, round));
+  }
 }
 
 void updateMatches() {
@@ -127,5 +132,6 @@ void mouseClicked() {
 }
 
 void keyPressed() {
+  for(int i=0; i<matches.size(); i++) matches.get(i).updateText();
   for(int i=0; i<textBoxes.length; i++) textBoxes[i].updateText();
 }
