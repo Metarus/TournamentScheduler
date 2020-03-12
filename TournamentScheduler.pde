@@ -59,7 +59,14 @@ void createTournament() {
     for(int i=0; i<lines.length; i++) {
       teams[i][0]=lines[i];
     }
-  } 
+  } else {
+    for(int i=0; i<lines.length; i++) {
+      
+    }
+  }
+  for(int i=0; i<teams.length; i++) {
+    println(teams[i][0]);
+  }
   int type=radioButtons[0].getContent();
   switch(type) {
     case 0:
