@@ -4,7 +4,7 @@ class Match {
   int winner=-1;
   int round;
   TextBox[] scores=new TextBox[2];
-  int[] playerInputs=new int[2];
+  int[] playerInputs={-1, -1};
   int[] players={-1, -1};
   Match(boolean inputs, int p1, int p2, int _round) {
     if(inputs) {
@@ -22,8 +22,17 @@ class Match {
   }
   void update() {
     if(players[0]==players[1]) winner=players[0];
+    try {
+      int[] playerScores=new int[2];
+      for(int i=0; i<playerScores.length; i++) {
+        playerScores[i]=Integer.parseInt(scores[i].getContent());
+      }
+      if(playerScores[0]!=0||playerScores[1]!=0) {
+        winner=(playerScores[0]>playerScores[1])?players[0]:players[1];
+      }
+    } catch(Exception e) {}
     for(int i=0; i<players.length; i++) {
-      if(players[i]==-1) players[i]=matches.get(playerInputs[i]).getWinner();
+      if(playerInputs[i]!=-1) players[i]=matches.get(playerInputs[i]).getWinner();
     }
     content.beginDraw();
     content.fill(255);
@@ -32,7 +41,7 @@ class Match {
     content.textSize(30);
     content.fill(0);
     for(int i=0; i<2; i++) {
-      content.text((players[i]==-1)?("Winner of Match "+playerInputs[i]):(teams[players[i]][0]), 5, 33+i*50);
+      content.text((players[i]==-1)?("Winner of #"+playerInputs[i]):(teams[players[i]][0]), 5, 33+i*50);
     }
     for(int i=0; i<2; i++) {
       content.image(scores[i].display(false), 250, 50*i);

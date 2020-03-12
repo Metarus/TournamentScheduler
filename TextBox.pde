@@ -24,7 +24,7 @@ class TextBox {
     text.rect(0, 0, w, h);
     text.fill(0);
     text.text(header, 0, -22, w, h);
-    text.text(content, 0, 0, w, h);
+    text.text(content, 5, 0, w, h);
     text.endDraw();
     if(display) image(text, x, y);
     return text;
