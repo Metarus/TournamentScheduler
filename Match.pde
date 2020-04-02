@@ -20,6 +20,17 @@ class Match {
       scores[i].content="0";
     }
   }
+  Match(int[] data) {
+    playerInputs[0]=data[0];
+    playerInputs[1]=data[1];
+    players[0]=data[2];
+    players[1]=data[3];
+    for(int i=0; i<2; i++) {
+      scores[i]=new TextBox("", 0, 0, 50, 50);
+      scores[i].content=""+data[i+4];
+    }
+    round=data[6];
+  }
   void update() {
     if(players[0]==players[1]) winner=players[0];
     try {
@@ -62,6 +73,9 @@ class Match {
   }
   void display() {
     image(content, pos.x, pos.y);
+  }
+  String writeData() {
+    return playerInputs[0]+","+playerInputs[1]+","+players[0]+","+players[1]+","+scores[0].getContent()+","+scores[1].getContent()+","+round;
   }
   PGraphics getContent() { return content; }
   int getWinner() { return winner; }

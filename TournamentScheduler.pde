@@ -1,5 +1,4 @@
 String[][] teams;
-String lines[];
 int screenState=0;
 boolean mouseClicked;
 int bracketType=0;
@@ -16,12 +15,11 @@ TextBox[] textBoxes={
 };
 
 RadioButton[] radioButtons={
-  new RadioButton(new String[] {"Single Elimination", "Double Elimination", "Pools"}, 100, 100, 600, 50)
+  new RadioButton(new String[] {"Create Tournament", "Read Tournament Data"}, 100, 100, 600, 50)
 };
 
 void setup() {
   textSize(20);
-  lines=loadStrings("data/teams.txt");
   size(1600, 1600);
 }
 
@@ -50,16 +48,27 @@ void initial() {
 void tournamentDisplay() {
   for(int i=0; i<matches.size(); i++) matches.get(i).update();
   for(int i=0; i<matches.size(); i++) matches.get(i).display();
-  
+  if(button("Save as PNG", 50, 1200, 200, 50, 255)) saveFrame("tournament.png");
+  if(button("Save Matches", 300, 1200, 200, 50, 255)) writeMatches();
+}
+
+void writeMatches() {
+  PrintWriter output=createWriter("bracket.txt");
+  for(int i=0; i<matches.size(); i++) {
+    output.println(matches.get(i).writeData());
+  }
+  output.flush();
+  output.close();
 }
 
 void createTournament() {
+  String[] lines=loadStrings("data/teams.txt");
   if(!tickBoxes[0].getContent()) {
     teams=new String[lines.length][1];
     for(int i=0; i<lines.length; i++) {
       teams[i][0]=lines[i];
     }
-  } 
+  }
   int type=radioButtons[0].getContent();
   switch(type) {
     case 0:
@@ -67,9 +76,21 @@ void createTournament() {
       setTournamentDisplay();
       break;
     case 1:
+      readData();
+      setTournamentDisplay();
       break;
     case 2:
       break;
+  }
+}
+
+void readData() {
+  String[] lines=loadStrings("bracket.txt");
+  for(int i=0; i<lines.length; i++) {
+    String[] line=split(lines[i], ',');
+    int[] data=new int[line.length];
+    for(int j=0; j<line.length; j++) data[j]=Integer.parseInt(line[j]);
+    matches.add(new Match(data));
   }
 }
 
