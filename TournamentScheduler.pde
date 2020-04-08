@@ -7,7 +7,6 @@ ArrayList<Match> matches=new ArrayList<Match>();
 
 TickBox[] tickBoxes={
   new TickBox("Teams", 400, 200, 100, 50),
-  new TickBox("Times", 250, 200, 100, 50),
   new TickBox("Seeding", 100, 200, 100, 50)
 };
 
@@ -63,6 +62,17 @@ void writeMatches() {
 
 void createTournament() {
   String[] lines=loadStrings("data/teams.txt");
+  if(tickBoxes[1].getContent()) {
+    String[] tempLines=new String[lines.length];
+    for(int i=0; i<tempLines.length; i+=2) {
+      tempLines[i]=lines[i/2];
+      try {
+        tempLines[i+1]=lines[lines.length-1-i/2];
+      } catch(Exception e) {}
+    }
+    lines=tempLines;
+  }
+  for(int i=0; i<lines.length; i++) println(lines[i]);
   if(!tickBoxes[0].getContent()) {
     teams=new String[lines.length][1];
     for(int i=0; i<lines.length; i++) {
