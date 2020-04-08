@@ -47,20 +47,61 @@ void initial() {
 void tournamentDisplay() {
   for(int i=0; i<matches.size(); i++) matches.get(i).update();
   for(int i=0; i<matches.size(); i++) matches.get(i).display();
-  if(button("Save as PNG", 50, 1200, 200, 50, 255)) saveFrame("tournament.png");
-  if(button("Save Matches", 300, 1200, 200, 50, 255)) writeMatches();
+  if(tickBoxes[0].getContent()) {
+    for(int i=0; i<teams.length; i++) {
+      for(int j=0; j<teams[i].length; j++) {
+        fill(255);
+        rectMode(CENTER);
+        rect(55+99*i, 1100+50*j, 100, 50);
+        fill(0);
+        text(teams[i][j], 55+99*i, 1100+50*j);
+      }
+    }
+  }
+  if(button("Save as PNG", 50, 1400, 200, 50, 255)) saveFrame("data/tournament.png");
+  if(button("Save Matches", 300, 1400, 200, 50, 255)) writeMatches();
 }
 
 void writeMatches() {
-  PrintWriter output=createWriter("bracket.txt");
+  PrintWriter output=createWriter("data/bracket.txt");
   for(int i=0; i<matches.size(); i++) {
     output.println(matches.get(i).writeData());
   }
+  output.println((tickBoxes[0].getContent()?1:0)+","+(tickBoxes[1].getContent()?1:0));
   output.flush();
   output.close();
 }
 
 void createTournament() {
+  int type=radioButtons[0].getContent();
+  switch(type) {
+    case 0:
+      createTeams();
+      createSingleElim(0, 0, teams.length-1);
+      break;
+    case 1:
+      readData();
+      break;
+  }
+  setTournamentDisplay();
+}
+
+void readData() {
+  String[] lines=loadStrings("bracket.txt");
+  String[] finalLine=split(lines[lines.length-1],',');
+  for(int i=0; i<tickBoxes.length; i++) {
+    tickBoxes[i].selection=finalLine[i].equals("1");
+  }
+  createTeams();
+  for(int i=0; i<lines.length-1; i++) {
+    String[] line=split(lines[i], ',');
+    int[] data=new int[line.length];
+    for(int j=0; j<line.length; j++) data[j]=Integer.parseInt(line[j]);
+    matches.add(new Match(data));
+  }
+}
+
+void createTeams() {
   String[] lines=loadStrings("data/teams.txt");
   if(tickBoxes[1].getContent()) {
     String[] tempLines=new String[lines.length];
@@ -72,35 +113,16 @@ void createTournament() {
     }
     lines=tempLines;
   }
-  for(int i=0; i<lines.length; i++) println(lines[i]);
   if(!tickBoxes[0].getContent()) {
     teams=new String[lines.length][1];
     for(int i=0; i<lines.length; i++) {
       teams[i][0]=lines[i];
     }
-  }
-  int type=radioButtons[0].getContent();
-  switch(type) {
-    case 0:
-      createSingleElim(0, 0, teams.length-1);
-      setTournamentDisplay();
-      break;
-    case 1:
-      readData();
-      setTournamentDisplay();
-      break;
-    case 2:
-      break;
-  }
-}
-
-void readData() {
-  String[] lines=loadStrings("bracket.txt");
-  for(int i=0; i<lines.length; i++) {
-    String[] line=split(lines[i], ',');
-    int[] data=new int[line.length];
-    for(int j=0; j<line.length; j++) data[j]=Integer.parseInt(line[j]);
-    matches.add(new Match(data));
+  } else {
+    teams=new String[lines.length][];
+    for(int i=0; i<lines.length; i++) {
+      teams[i]=split(lines[i], ',');
+    }
   }
 }
 
@@ -142,6 +164,7 @@ void updateMatches() {
 }
 
 boolean button(String str, int x, int y, int w, int h, color clr) {
+  rectMode(0);
   fill(clr);
   rect(x, y, w, h);
   textAlign(CENTER);
