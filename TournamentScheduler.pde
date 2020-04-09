@@ -48,13 +48,14 @@ void tournamentDisplay() {
   for(int i=0; i<matches.size(); i++) matches.get(i).update();
   for(int i=0; i<matches.size(); i++) matches.get(i).display();
   if(tickBoxes[0].getContent()) {
-    for(int i=0; i<teams.length; i++) {
-      for(int j=0; j<teams[i].length; j++) {
+    for(int i=-1; i<teams.length; i++) {
+      for(int j=0; j<teams[Math.abs(i)].length; j++) {
         fill(255);
         rectMode(CENTER);
-        rect(55+99*i, 1100+50*j, 100, 50);
+        rect(154+99*i, 1100+50*j, 100, 50);
         fill(0);
-        text(teams[i][j], 55+99*i, 1100+50*j);
+        //the first column is -1, if it's the first row then make it team and if it's anything beyond that then say player #
+        text((i==-1)?((j==0)?"Team":"Player "+j):teams[i][j], 154+99*i, 1100+50*j);
       }
     }
   }

@@ -13,4 +13,4 @@ Rana, Metarus, CalaMeta, Icarus
 C92, Squishy, Torment, Gimmick
 NRG2, Jstn, Turbo, Garrett
 Dignitas2, Violent, Yukeo, Aztral
-Rana2, Metarus, CalaMeta, Icarus
+Rana, Metarus, CalaMeta, Icarus
